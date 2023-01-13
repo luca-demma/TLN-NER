@@ -1,16 +1,24 @@
-# This is a sample Python script.
+from conllu import parse
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+DATA_PATH = "./data"
+DATA_IT_DIR = "wikineural_it"
+DATA_EN_DIR = "wikineural_en"
+
+TRAIN_FILE = "train.conllu"
+TEST_FILE = "test.conllu"
+VAL_FILE = "val.conllu"
+
+IT_TRAIN_PATH = DATA_PATH + "/" + DATA_IT_DIR + "/" + TRAIN_FILE
+IT_TEST_PATH = DATA_PATH + "/" + DATA_IT_DIR + "/" + TEST_FILE
+IT_VAL_PATH = DATA_PATH + "/" + DATA_IT_DIR + "/" + VAL_FILE
+
+#TODO en paths
+
+with open(IT_TRAIN_PATH) as f:
+	train_text = f.read()
+	sentences = parse(train_text, fields=["id", "form", "tag"])
+
+sentence = sentences[0]
+print(sentence)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
