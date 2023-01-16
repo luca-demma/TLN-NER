@@ -82,6 +82,6 @@ for s in sentences:
 		transitions_counts[t['tag']][prev_tag] += 1
 
 # Print to EXCEL
-df = pd.DataFrame(emissions_counts)
+df = pd.DataFrame(transitions_counts)
 #df.to_csv(OUTPUT_PATH + 'ccc.csv', index=None)
 df.to_excel(OUTPUT_PATH + 'transitions_counts.xlsx', na_rep=0, columns=df.columns)
