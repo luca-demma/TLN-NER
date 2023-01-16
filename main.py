@@ -1,8 +1,8 @@
 from conllu import parse
 from enum import Enum
-from collections import defaultdict
 import constants
-from write_to_excel import write_to_excel
+from helpers import write_to_file, multi_dict
+
 
 with open(constants.IT_TRAIN_PATH) as f:
 	train_text = f.read()
@@ -22,55 +22,49 @@ class NerTagExtended(Enum):
 	OTHER = "O"
 
 
-# Utility function to create dictionary
-def multi_dict(K, type):
-	if K == 1:
-		return defaultdict(type)
-	else:
-		return defaultdict(lambda: multi_dict(K-1, type))
-
-
-# [tag][word]
+# [word][tag]
 emissions_counts = multi_dict(2, int)
 
 for s in sentences:
 	for t in s:
-		emissions_counts[t['tag']][t['form']] += 1
+		emissions_counts[t['form']][t['tag']] += 1
 
-write_to_excel(emissions_counts, 'emissions_count')
+write_to_file(emissions_counts, 'emissions_count')
 
 
+# [word][tag]
 emissions_probabilities = multi_dict(2, float)
 
-for t in emissions_counts.keys():
-	for w in emissions_counts[t].keys():
+for w in emissions_counts.keys():
+	for t in emissions_counts[w].keys():
 		w_count = 0
-		for tt in emissions_counts.keys():
-			w_count += int(emissions_counts[tt][w])
-		emissions_probabilities[t][w] = emissions_counts[t][w] / w_count
+		for tt in emissions_counts[w].keys():
+			w_count += int(emissions_counts[w][tt])
+		emissions_probabilities[w][t] = emissions_counts[w][t] / w_count
 
-write_to_excel(emissions_probabilities, 'emissions_probabilities')
+write_to_file(emissions_probabilities, 'emissions_probabilities')
 
 
-# [tag][prev_tag]
+
+# [prev_tag][tag]
 transitions_counts = multi_dict(2, int)
 
 for s in sentences:
 	for t in s:
 		prev_tag = "START" if t['id'] == 0 else s[t['id'] - 1]['tag']
-		transitions_counts[t['tag']][prev_tag] += 1
+		transitions_counts[prev_tag][t['tag']] += 1
 
-write_to_excel(transitions_counts, 'transitions_counts')
+write_to_file(transitions_counts, 'transitions_counts')
 
 
 transitions_probabilities = multi_dict(2, float)
 
-for t in transitions_counts.keys():
-	for w in transitions_counts[t].keys():
+for w in transitions_counts.keys():
+	for t in transitions_counts[w].keys():
 		w_count = 0
-		for tt in transitions_counts.keys():
-			w_count += int(transitions_counts[tt][w])
-		transitions_probabilities[t][w] = transitions_counts[t][w] / w_count
+		for tt in transitions_counts[w].keys():
+			w_count += int(transitions_counts[w][tt])
+		transitions_probabilities[w][t] = transitions_counts[w][t] / w_count
 
-write_to_excel(transitions_probabilities, 'transitions_probabilities')
+write_to_file(transitions_probabilities, 'transitions_probabilities')
 
