@@ -27,3 +27,11 @@ def read_from_file(file_name):
 	with open(constants.OUTPUT_PATH + file_name + '.pickle', 'rb') as file:
 		return pickle.load(file)
 
+
+def set_smoothing(dict2d):
+	for d in dict2d:
+		print("AAAAAAA " + d)
+		for dd in d:
+			print("BBBBBB " + dd)
+			dd.default_factory = lambda: 1/len(constants.NerTag)
+
