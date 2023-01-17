@@ -41,3 +41,9 @@ def from_conllu_to_sentences(file_path):
 	with open(file_path) as f:
 		text = f.read()
 		return parse(text, fields=["id", "form", "tag"])
+
+
+def string_to_csv(file_name, the_string):
+	text_file = open(constants.OUTPUT_PATH + file_name + '.csv', "w")
+	text_file.write(the_string)
+	text_file.close()

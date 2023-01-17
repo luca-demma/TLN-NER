@@ -10,6 +10,7 @@ sentence_to_decode = "Si stabilì ad Amburgo per la sua ammirazione nei confront
 
 sentence_to_decode_list = sentence_to_decode.split(" ")
 
+
 def decode(sentence_list):
 
 	# [tag][time_step]
@@ -21,7 +22,7 @@ def decode(sentence_list):
 	# init
 	for t in NerTag:
 		# smoothing uniforme
-		emission_probability = 1/len(constants.NerTag) if emissions_probabilities[sentence_list[0]][t.value] == 0 else emissions_probabilities[sentence_to_decode_list[0]][t.value]
+		emission_probability = 1/len(constants.NerTag) if emissions_probabilities[sentence_list[0]][t.value] == 0 else emissions_probabilities[sentence_list[0]][t.value]
 		viterbi_matrix[t.value][0] = log(transitions_probabilities['START'][t.value]) + log(emission_probability)
 
 	# recursion
@@ -47,17 +48,13 @@ def decode(sentence_list):
 
 
 	write_to_file(viterbi_matrix, "VITERBI_OUTPUT")
-	print("_____________________________________")
-	print("BEST_PATH_PROB " + str(best_path_prob))
-	print("_____________________________________")
+	# print("BEST_PATH_PROB " + str(best_path_prob))
 
 	result = TokenList([])
 
-	for index, w in enumerate(sentence_to_decode_list):
+	for index, w in enumerate(sentence_list):
 		max_tag = max(viterbi_matrix, key=lambda tag: viterbi_matrix[tag][index])
-		print(w + " => " + max_tag)
+		# populate TokenList
 		result.append({'id': index, 'form': w, 'tag': max_tag})
-
-	print("_____________________________________")
 
 	return result
