@@ -1,3 +1,5 @@
+from enum import Enum
+
 DATA_PATH = "./data"
 DATA_IT_DIR = DATA_PATH + "/wikineural_it/"
 DATA_EN_DIR = DATA_PATH + "/wikineural_en/"
@@ -13,3 +15,16 @@ IT_VAL_PATH = DATA_IT_DIR + VAL_FILE
 OUTPUT_PATH = DATA_PATH + "/outputs/"
 
 #TODO english paths
+
+
+class NerTag(Enum):
+#	START = "START"
+	B_PER = "B-PER"
+	I_PER = "I-PER"
+	B_ORG = "B-ORG"
+	I_ORG = "I-ORG"
+	B_LOC = "B-LOC"
+	I_LOC = "I-LOC"
+	B_MISC = "B-MISC"
+	I_MISC = "I-MISC"
+	OTHER = "O"
