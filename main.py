@@ -35,12 +35,16 @@ write_to_file(emissions_counts, 'emissions_count')
 # [word][tag]
 emissions_probabilities = multi_dict(2, float)
 
+# for evry word found
 for w in emissions_counts.keys():
-	for t in emissions_counts[w].keys():
+	for t in NerTag:
 		w_count = 0
-		for tt in emissions_counts[w].keys():
-			w_count += int(emissions_counts[w][tt])
-		emissions_probabilities[w][t] = emissions_counts[w][t] / w_count
+		for tt in NerTag:
+			# +1 used for the pseudocounting
+			w_count += int(emissions_counts[w][tt.value]) + 1
+		# we use + 1 to give a very low probability to the couple word/tag instead of giving
+		# 0 probability that will set to zero the total probability calculated
+		emissions_probabilities[w][t.value] = (emissions_counts[w][t.value] + 1) / w_count
 
 write_to_file(emissions_probabilities, 'emissions_probabilities')
 
