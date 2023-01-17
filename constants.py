@@ -1,4 +1,5 @@
 from enum import Enum
+import sys
 
 DATA_PATH = "./data"
 DATA_IT_DIR = DATA_PATH + "/wikineural_it/"
@@ -11,6 +12,8 @@ VAL_FILE = "val.conllu"
 IT_TRAIN_PATH = DATA_IT_DIR + TRAIN_FILE
 IT_TEST_PATH = DATA_IT_DIR + TEST_FILE
 IT_VAL_PATH = DATA_IT_DIR + VAL_FILE
+
+MIN_FLOAT = -sys.float_info.max
 
 OUTPUT_PATH = DATA_PATH + "/outputs/"
 
