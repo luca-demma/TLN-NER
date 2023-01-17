@@ -64,11 +64,13 @@ write_to_file(transitions_counts, 'transitions_counts')
 transitions_probabilities = multi_dict(2, float)
 
 for w in transitions_counts.keys():
-	for t in transitions_counts[w].keys():
+	for t in NerTag:
 		w_count = 0
-		for tt in transitions_counts[w].keys():
-			w_count += int(transitions_counts[w][tt])
-		transitions_probabilities[w][t] = transitions_counts[w][t] / w_count
+		for tt in NerTag:
+			# +1 used for pseudocounting (look at emissions calc)
+			w_count += int(transitions_counts[w][tt.value]) + 1
+		# +1 used for pseudocounting (look at emissions calc)
+		transitions_probabilities[w][t.value] = (transitions_counts[w][t.value] + 1) / w_count
 
 write_to_file(transitions_probabilities, 'transitions_probabilities')
 
