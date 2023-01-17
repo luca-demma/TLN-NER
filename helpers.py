@@ -3,6 +3,7 @@ import constants
 from collections import defaultdict
 import dill as pickle
 
+
 def write_to_file(dict_2d, file_name):
 	df = pd.DataFrame(dict_2d)
 	# df.to_csv(OUTPUT_PATH + 'ccc.csv', index=None)
