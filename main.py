@@ -114,3 +114,9 @@ write_to_file(backpointers, "BACKPOINTERS_TEST")
 print("BEST_PATH_PROB " + str(best_path_prob))
 print("BEST_PATH_POINTER " + str(best_path_pointer))
 
+for index, w in enumerate(sentence_to_decode_list):
+	max_tag = ""
+	for tag in NerTag:
+		max_tag = tag.value if viterbi_matrix[tag.value][index] > viterbi_matrix[max_tag][index] else max_tag
+	print(w + " => " + max_tag)
+
