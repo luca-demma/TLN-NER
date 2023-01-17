@@ -1,12 +1,10 @@
 import constants
 from conllu import parse
-from helpers import write_to_file, multi_dict
+from helpers import write_to_file, multi_dict, from_conllu_to_sentences
 from constants import NerTag
 
 
-with open(constants.IT_TRAIN_PATH) as f:
-	train_text = f.read()
-	sentences = parse(train_text, fields=["id", "form", "tag"])
+sentences = from_conllu_to_sentences(constants.IT_TRAIN_PATH)
 
 # [word][tag]
 emissions_counts = multi_dict(2, int)

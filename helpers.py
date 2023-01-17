@@ -2,6 +2,7 @@ import pandas as pd
 import constants
 from collections import defaultdict
 import dill as pickle
+from conllu import parse
 
 
 def write_to_file(dict_2d, file_name):
@@ -35,3 +36,8 @@ def set_smoothing(dict2d):
 			print("BBBBBB " + dd)
 			dd.default_factory = lambda: 1/len(constants.NerTag)
 
+
+def from_conllu_to_sentences(file_path):
+	with open(file_path) as f:
+		text = f.read()
+		return parse(text, fields=["id", "form", "tag"])

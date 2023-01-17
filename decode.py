@@ -10,10 +10,6 @@ sentence_to_decode = "Si stabilì ad Amburgo per la sua ammirazione nei confront
 
 sentence_to_decode_list = sentence_to_decode.split(" ")
 
-
-
-
-
 def decode(sentence_list):
 
 	# [tag][time_step]
