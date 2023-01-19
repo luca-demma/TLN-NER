@@ -9,6 +9,7 @@ results_csv = 'ID\tWord\tTAG_Test\tTAG_Calculated\tIS_Correct\n'
 
 sentences = []
 
+# Needed for PQDM
 for s in sentences_old:
 	tokens = []
 	for t in s:
