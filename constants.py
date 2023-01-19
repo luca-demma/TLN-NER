@@ -23,13 +23,4 @@ OUTPUT_PATH = DATA_PATH + "/outputs/"
 #TODO english paths
 
 
-class NerTag(Enum):
-	B_PER = "B-PER"
-	I_PER = "I-PER"
-	B_ORG = "B-ORG"
-	I_ORG = "I-ORG"
-	B_LOC = "B-LOC"
-	I_LOC = "I-LOC"
-	B_MISC = "B-MISC"
-	I_MISC = "I-MISC"
-	OTHER = "O"
+NER_TAGS = ["B-PER", "I-PER", "B-ORG", "I-ORG", "B-LOC", "I-LOC", "B-MISC", "I-MISC", "O"]

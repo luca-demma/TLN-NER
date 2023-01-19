@@ -1,6 +1,6 @@
 import constants
 from helpers import write_to_file, multi_dict, from_conllu_to_sentences
-from constants import NerTag
+from constants import NER_TAGS
 from tqdm import tqdm
 
 
@@ -24,15 +24,15 @@ emissions_probabilities = multi_dict(2, float)
 
 # for every word found
 for word in tqdm(emissions_counts.keys(), desc="Emissions => Calculating Probabilities"):
-	for tag in NerTag:
+	for tag in NER_TAGS:
 		# Total count of word
 		w_count = 0
-		for tt in NerTag:
+		for tt in NER_TAGS:
 			# +1 used for the pseudocounting
-			w_count += int(emissions_counts[word][tt.value]) + 1
+			w_count += int(emissions_counts[word][tt]) + 1
 		# we use + 1 to give a very low probability to the pair word/tag instead of giving
 		# 0 probability that will set to zero the total probability calculated
-		emissions_probabilities[word][tag.value] = (emissions_counts[word][tag.value] + 1) / w_count
+		emissions_probabilities[word][tag] = (emissions_counts[word][tag] + 1) / w_count
 
 # Write emission probabilities to file as csv and pickle
 write_to_file(emissions_probabilities, 'emissions_probabilities', True)
@@ -53,14 +53,14 @@ write_to_file(transitions_counts, 'transitions_counts')
 transitions_probabilities = multi_dict(2, float)
 
 for word in tqdm(transitions_counts.keys(), desc="Transitions => Calculating Probabilities"):
-	for tag in NerTag:
+	for tag in NER_TAGS:
 		# Total count of word
 		w_count = 0
-		for tt in NerTag:
+		for tt in NER_TAGS:
 			# +1 used for pseudocounting (look at emissions calc)
-			w_count += int(transitions_counts[word][tt.value]) + 1
+			w_count += int(transitions_counts[word][tt]) + 1
 		# +1 used for pseudocounting (look at emissions calc)
-		transitions_probabilities[word][tag.value] = (transitions_counts[word][tag.value] + 1) / w_count
+		transitions_probabilities[word][tag] = (transitions_counts[word][tag] + 1) / w_count
 
 
 # Write transitions probabilities to file as csv and pickle
