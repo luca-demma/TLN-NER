@@ -5,15 +5,16 @@ import dill as pickle
 from conllu import parse
 
 
-def write_to_file(dict_2d, file_name):
+def write_to_file(dict_2d, file_name, to_pickle = False):
 	df = pd.DataFrame(dict_2d)
 	# df.to_csv(OUTPUT_PATH + 'ccc.csv', index=None)
 	# df.to_excel(constants.OUTPUT_PATH + file_name + '.xlsx', na_rep=0, columns=df.columns)
 	df.to_csv(constants.OUTPUT_PATH + file_name + '.csv')
 
 	# Write To Pickle
-	with open(constants.OUTPUT_PATH + file_name + '.pickle', 'wb') as file:
-		pickle.dump(dict_2d, file)
+	if to_pickle:
+		with open(constants.OUTPUT_PATH + file_name + '.pickle', 'wb') as file:
+			pickle.dump(dict_2d, file)
 
 
 # Utility function to create dictionary
@@ -27,14 +28,6 @@ def multi_dict(K, type):
 def read_from_file(file_name):
 	with open(constants.OUTPUT_PATH + file_name + '.pickle', 'rb') as file:
 		return pickle.load(file)
-
-
-def set_smoothing(dict2d):
-	for d in dict2d:
-		print("AAAAAAA " + d)
-		for dd in d:
-			print("BBBBBB " + dd)
-			dd.default_factory = lambda: 1/len(constants.NerTag)
 
 
 def from_conllu_to_sentences(file_path):

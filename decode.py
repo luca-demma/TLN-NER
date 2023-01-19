@@ -47,7 +47,7 @@ def decode(sentence_list):
 		best_path_prob = max(best_path_prob, viterbi_matrix[t.value][len(sentence_list) - 1])
 
 
-	write_to_file(viterbi_matrix, "VITERBI_OUTPUT")
+	# write_to_file(viterbi_matrix, "VITERBI_OUTPUT")
 	# print("BEST_PATH_PROB " + str(best_path_prob))
 
 	result = TokenList([])

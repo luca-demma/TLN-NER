@@ -30,7 +30,7 @@ for w in emissions_counts.keys():
 		# 0 probability that will set to zero the total probability calculated
 		emissions_probabilities[w][t.value] = (emissions_counts[w][t.value] + 1) / w_count
 
-write_to_file(emissions_probabilities, 'emissions_probabilities')
+write_to_file(emissions_probabilities, 'emissions_probabilities', True)
 
 
 
@@ -56,4 +56,4 @@ for w in transitions_counts.keys():
 		# +1 used for pseudocounting (look at emissions calc)
 		transitions_probabilities[w][t.value] = (transitions_counts[w][t.value] + 1) / w_count
 
-write_to_file(transitions_probabilities, 'transitions_probabilities')
+write_to_file(transitions_probabilities, 'transitions_probabilities', True)

@@ -1,5 +1,8 @@
 from enum import Enum
 import sys
+import multiprocessing
+
+NUM_CORES = multiprocessing.cpu_count()
 
 DATA_PATH = "./data"
 DATA_IT_DIR = DATA_PATH + "/wikineural_it/"
