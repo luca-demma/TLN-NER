@@ -3,28 +3,25 @@ import constants
 from decode import decode
 from pqdm.processes import pqdm
 
+# Read Sentences from conllu test file
+sentences_raw = from_conllu_to_sentences(constants.IT_TEST_PATH)
 
-sentences_old = from_conllu_to_sentences(constants.IT_TEST_PATH)
-results_csv = 'ID\tWord\tTAG_Test\tTAG_Calculated\tIS_Correct\n'
-
+# Needed for PQDM (just converting the conllu.sentence list to a custom list that uses the same format)
 sentences = []
-
-# Needed for PQDM
-for s in sentences_old:
+for s in sentences_raw:
 	tokens = []
-	for t in s:
-		tokens.append({'id': t['id'], 'form': t['form'], 'tag': t['tag']})
+	for token in s:
+		tokens.append({'id': token['id'], 'form': token['form'], 'tag': token['tag']})
 	sentences.append(tokens)
 
 
 def decode_sentence(sentence):
-
-	csv_sentence = ""
 	word_list = []
-	for w in sentence:
-		word_list.append(w['form'])
+	for word in sentence:
+		word_list.append(word['form'])
 	sentence_decoded = decode(word_list)
 
+	csv_sentence = ""
 	# Creating the csv for result comparison
 	for index, token in enumerate(sentence):
 		sd_token = sentence_decoded[index]
@@ -37,8 +34,10 @@ def decode_sentence(sentence):
 
 
 # multi threading
-csv_sentences = pqdm(sentences, decode_sentence, n_jobs=constants.NUM_CORES)
+csv_sentences = pqdm(sentences, decode_sentence, n_jobs=constants.NUM_CORES, desc="DECODING...")
 
+
+results_csv = 'ID\tWord\tTAG_Test\tTAG_Calculated\tIS_Correct\n'
 
 for s in csv_sentences:
 	results_csv += s
