@@ -58,8 +58,8 @@ def decode(sentence_list, transitions_probabilities, emissions_probabilities):
 
 # Read probabilities matrixes from file
 if __name__ == "__main__":
-	transitions_probabilities = read_from_file('transitions_probabilities')
-	emissions_probabilities = read_from_file('emissions_probabilities')
+	transitions_probabilities = read_from_file('LEARNING/IT/transitions_probabilities')
+	emissions_probabilities = read_from_file('LEARNING/IT/emissions_probabilities')
 
 	for s in constants.TEST_SENTENCES:
 		result = decode(s, transitions_probabilities, emissions_probabilities)
