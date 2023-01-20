@@ -7,11 +7,20 @@ import sys
 
 # Command line argument to set to calculate the baseline
 BASELINE = ""
-if len(sys.argv) > 1:
-	BASELINE = sys.argv[1]
+if len(sys.argv) > 2:
+	BASELINE = sys.argv[2]
 
-# Read Sentences from conllu test file
-sentences = from_conllu_to_sentences(constants.IT_TEST_PATH)
+LANG = 'IT'
+if len(sys.argv) > 1:
+	LANG = sys.argv[1]
+
+# Read TEST sentences
+if LANG == 'IT':
+	sentences = from_conllu_to_sentences(constants.IT_TEST_PATH)
+elif LANG == 'EN':
+	sentences = from_conllu_to_sentences(constants.EN_TEST_PATH)
+else:
+	raise Exception("LANG parameter can be only IT or EN (case sensitive)")
 
 
 def decode_sentence(sentence, transitions_probabilities, emissions_probabilities):
@@ -37,8 +46,8 @@ def decode_sentence(sentence, transitions_probabilities, emissions_probabilities
 
 
 # Read probabilities matrixes from file
-transitions_probabilities = read_from_file('transitions_probabilities')
-emissions_probabilities = read_from_file('emissions_probabilities')
+transitions_probabilities = read_from_file('LEARNING/' + LANG + '/transitions_probabilities')
+emissions_probabilities = read_from_file('LEARNING/' + LANG + '/emissions_probabilities')
 
 # List of csv strings representing a single sentence
 csv_sentences = []
@@ -53,5 +62,4 @@ results_csv = 'ID\tWord\tTAG_Test\tTAG_Calculated\tIS_Correct\n'
 for s in csv_sentences:
 	results_csv += s
 
-string_to_csv(BASELINE + "results_comparison", results_csv)
-
+string_to_csv("DECODING/" + LANG + "/" + LANG + BASELINE + "_results_comparison", results_csv)

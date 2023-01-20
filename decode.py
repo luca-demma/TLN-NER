@@ -51,17 +51,18 @@ def decode(sentence_list, transitions_probabilities, emissions_probabilities):
 	return result
 
 
+
 #############################################
 # Test sentences from slide #
 #############################################
 
 # Read probabilities matrixes from file
-transitions_probabilities = read_from_file('transitions_probabilities')
-emissions_probabilities = read_from_file('emissions_probabilities')
+if __name__ == "__main__":
+	transitions_probabilities = read_from_file('transitions_probabilities')
+	emissions_probabilities = read_from_file('emissions_probabilities')
 
-for s in constants.TEST_SENTENCES:
-	result = decode(s, transitions_probabilities, emissions_probabilities)
-	print("_______________________________________")
-	for token in result:
-		print(str(token['id']) + '\t' + token['form'] + '\t' + token['tag'])
-
+	for s in constants.TEST_SENTENCES:
+		result = decode(s, transitions_probabilities, emissions_probabilities)
+		print("_______________________________________")
+		for token in result:
+			print(str(token['id']) + '\t' + token['form'] + '\t' + token['tag'])
