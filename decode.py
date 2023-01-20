@@ -1,5 +1,5 @@
 import constants
-from helpers import multi_dict
+from helpers import multi_dict, read_from_file
 from math import log
 from constants import NER_TAGS
 from conllu import TokenList
@@ -51,4 +51,17 @@ def decode(sentence_list, transitions_probabilities, emissions_probabilities):
 	return result
 
 
+#############################################
+# Test sentences from slide #
+#############################################
+
+# Read probabilities matrixes from file
+transitions_probabilities = read_from_file('transitions_probabilities')
+emissions_probabilities = read_from_file('emissions_probabilities')
+
+for s in constants.TEST_SENTENCES:
+	result = decode(s, transitions_probabilities, emissions_probabilities)
+	print("_______________________________________")
+	for token in result:
+		print(str(token['id']) + '\t' + token['form'] + '\t' + token['tag'])
 
