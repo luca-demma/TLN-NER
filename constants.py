@@ -24,3 +24,9 @@ OUTPUT_PATH = DATA_PATH + "/outputs/"
 
 
 NER_TAGS = ["B-PER", "I-PER", "B-ORG", "I-ORG", "B-LOC", "I-LOC", "B-MISC", "I-MISC", "O"]
+
+TEST_SENTENCES = [
+	["La", "vera", "casa", "di", "Harry", "Potter", "è", "il", "castello", "di", "Hogwards", "."],
+	["Harry", "le", "raccontò", "del", "loro", "incontro", "a", "Diagon", "Alley", "."],
+	["Mr", "Dursley", "era", "direttore", "di", "una", "ditta", "di", "nome", "Grunnings", ",", "che", "fabbricava", "trapani", "."]
+]

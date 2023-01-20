@@ -1,14 +1,8 @@
 import constants
-from helpers import write_to_file, multi_dict, read_from_file
+from helpers import multi_dict
 from math import log
 from constants import NER_TAGS
 from conllu import TokenList
-
-# VITERBI    DECODING
-sentence_to_decode = "Si stabilì ad Amburgo per la sua ammirazione nei confronti della letteratura tedesca ( aveva imparato la lingua in carcere ) , specialmente per i romantici come Novalis e Hölderlin ."
-# sentence_to_decode = "Mr Dursley era direttore di una ditta di nome Grunnings , che fabbricava trapani in Italia ."
-
-sentence_to_decode_list = sentence_to_decode.split(" ")
 
 
 def decode(sentence_list, transitions_probabilities, emissions_probabilities):
@@ -55,3 +49,6 @@ def decode(sentence_list, transitions_probabilities, emissions_probabilities):
 		result.append({'id': index, 'form': word, 'tag': max_tag})
 
 	return result
+
+
+

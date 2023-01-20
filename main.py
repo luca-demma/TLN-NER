@@ -11,15 +11,7 @@ if len(sys.argv) > 1:
 	BASELINE = sys.argv[1]
 
 # Read Sentences from conllu test file
-sentences_raw = from_conllu_to_sentences(constants.IT_TEST_PATH)
-
-# Needed for PQDM (just converting the conllu.sentence list to a custom list that uses the same format)
-sentences = []
-for s in sentences_raw:
-	tokens = []
-	for token in s:
-		tokens.append({'id': token['id'], 'form': token['form'], 'tag': token['tag']})
-	sentences.append(tokens)
+sentences = from_conllu_to_sentences(constants.IT_TEST_PATH)
 
 
 def decode_sentence(sentence, transitions_probabilities, emissions_probabilities):
@@ -27,10 +19,10 @@ def decode_sentence(sentence, transitions_probabilities, emissions_probabilities
 	for word in sentence:
 		word_list.append(word['form'])
 
-		if BASELINE == "baseline":
-			sentence_decoded = baseline_decode(word_list, emissions_probabilities)
-		else:
-			sentence_decoded = decode(word_list, transitions_probabilities, emissions_probabilities)
+	if BASELINE == "baseline":
+		sentence_decoded = baseline_decode(word_list, emissions_probabilities)
+	else:
+		sentence_decoded = decode(word_list, transitions_probabilities, emissions_probabilities)
 
 	csv_sentence = ""
 	# Creating the csv for result comparison
@@ -61,7 +53,5 @@ results_csv = 'ID\tWord\tTAG_Test\tTAG_Calculated\tIS_Correct\n'
 for s in csv_sentences:
 	results_csv += s
 
-if BASELINE == "baseline":
-	string_to_csv("BASELINE_results_comparison", results_csv)
-else:
-	string_to_csv("results_comparison", results_csv)
+string_to_csv(BASELINE + "results_comparison", results_csv)
+
