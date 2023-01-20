@@ -6,10 +6,7 @@ from conllu import TokenList
 
 
 # sentence as a list of strings
-def baseline_decode(sentence_list):
-	print(sentence_list)
-
-	emissions_probabilities = read_from_file('emissions_probabilities')
+def baseline_decode(sentence_list, emissions_probabilities):
 
 	result_tags = []
 

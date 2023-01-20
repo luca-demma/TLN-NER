@@ -1,8 +1,9 @@
-from helpers import from_conllu_to_sentences, string_to_csv
+from helpers import from_conllu_to_sentences, string_to_csv, read_from_file
 import constants
 from decode import decode
 from baseline import baseline_decode
 from pqdm.processes import pqdm
+from tqdm import tqdm
 
 # Read Sentences from conllu test file
 sentences_raw = from_conllu_to_sentences(constants.IT_TEST_PATH)
@@ -16,13 +17,13 @@ for s in sentences_raw:
 	sentences.append(tokens)
 
 
-def decode_sentence(sentence):
+def decode_sentence(sentence, transitions_probabilities, emissions_probabilities):
 	word_list = []
 	for word in sentence:
 		word_list.append(word['form'])
 
-		#sentence_decoded = baseline_decode(word_list)
-		sentence_decoded = decode(word_list)
+		sentence_decoded = baseline_decode(word_list, emissions_probabilities)
+		#sentence_decoded = decode(word_list, transitions_probabilities, emissions_probabilities)
 
 	csv_sentence = ""
 	# Creating the csv for result comparison
@@ -37,8 +38,14 @@ def decode_sentence(sentence):
 
 
 # multi threading
-csv_sentences = pqdm(sentences, decode_sentence, n_jobs=constants.NUM_CORES, desc="DECODING...")
+# csv_sentences = pqdm(sentences, decode_sentence, n_jobs=constants.NUM_CORES, desc="DECODING...")
 
+# Read probabilities matrixes from file
+transitions_probabilities = read_from_file('transitions_probabilities')
+emissions_probabilities = read_from_file('emissions_probabilities')
+csv_sentences = []
+for s in tqdm(sentences):
+	csv_sentences.append(decode_sentence(s, transitions_probabilities, emissions_probabilities))
 
 # Write the result to a CSV
 results_csv = 'ID\tWord\tTAG_Test\tTAG_Calculated\tIS_Correct\n'
@@ -46,6 +53,6 @@ results_csv = 'ID\tWord\tTAG_Test\tTAG_Calculated\tIS_Correct\n'
 for s in csv_sentences:
 	results_csv += s
 
-	#string_to_csv("BASELINE_results_comparison", results_csv)
-	string_to_csv("results_comparison", results_csv)
+	string_to_csv("BASELINE_results_comparison", results_csv)
+	#string_to_csv("results_comparison", results_csv)
 

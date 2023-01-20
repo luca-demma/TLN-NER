@@ -11,14 +11,10 @@ sentence_to_decode = "Si stabilì ad Amburgo per la sua ammirazione nei confront
 sentence_to_decode_list = sentence_to_decode.split(" ")
 
 
-def decode(sentence_list):
+def decode(sentence_list, transitions_probabilities, emissions_probabilities):
 
 	# [tag][time_step]
 	viterbi_matrix = multi_dict(2, float)
-
-	# Read probabilities matrixes from file
-	transitions_probabilities = read_from_file('transitions_probabilities')
-	emissions_probabilities = read_from_file('emissions_probabilities')
 
 	# INIT step
 	for tag in NER_TAGS:
