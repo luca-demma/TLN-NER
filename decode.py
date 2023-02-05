@@ -17,19 +17,19 @@ def decode(sentence_list, transitions_probabilities, emissions_probabilities):
 		viterbi_matrix[tag][0] = log(transitions_probabilities['START'][tag]) + log(emission_probability)
 
 	# RECURSION step
-	for time_stamp, word in enumerate(sentence_list):
+	for time_step, word in enumerate(sentence_list):
 		# starting from the second word because the first word was processed by the init already
-		if time_stamp > 0:
+		if time_step > 0:
 			for tag in NER_TAGS:
 				temp_prob = constants.MIN_FLOAT
 				# smoothing uniforme
 				emission_probability = 1 / len(NER_TAGS) if emissions_probabilities[word][tag] == 0 else emissions_probabilities[word][tag]
 				for tt in NER_TAGS:
 					temp_prob = max(
-						viterbi_matrix[tt][time_stamp - 1] + log(transitions_probabilities[tt][tag]) + log(emission_probability),
+						viterbi_matrix[tt][time_step - 1] + log(transitions_probabilities[tt][tag]) + log(emission_probability),
 						temp_prob
 					)
-				viterbi_matrix[tag][time_stamp] = temp_prob
+				viterbi_matrix[tag][time_step] = temp_prob
 
 	# TERMINATION Step
 	best_path_prob = constants.MIN_FLOAT
